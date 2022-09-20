@@ -64,6 +64,12 @@ func readFilesFn(ctx context.Context, filename string, emit func(string)) error 
 	defer gs.Close()
 
 	scanner := bufio.NewScanner(gs)
+
+	// Use 1MB buffer for per-line scanning
+	const maxLineLen int = 1024 * 1024
+	buf := make([]byte, maxLineLen)
+	scanner.Buffer(buf, maxLineLen)
+
 	for scanner.Scan() {
 		emit(scanner.Text())
 	}
