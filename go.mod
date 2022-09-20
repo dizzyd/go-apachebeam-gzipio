@@ -1,4 +1,4 @@
-module github.com/dizzyd/go-apachebeam-gzipio/v2
+module github.com/dizzyd/go-apachebeam-gzipio
 
 go 1.18
 
