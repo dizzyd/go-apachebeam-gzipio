@@ -5,11 +5,11 @@ import (
 	"compress/gzip"
 	"context"
 	"fmt"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/io/filesystem"
 	"reflect"
 	"strings"
 
-	"github.com/apache/beam/sdks/go/pkg/beam"
-	"github.com/apache/beam/sdks/go/pkg/beam/io/filesystem"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam"
 )
 
 // Read is reading from glob

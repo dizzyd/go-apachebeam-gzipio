@@ -2,16 +2,15 @@ package gzipio
 
 import (
 	"context"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/io/textio"
+	"github.com/apache/beam/sdks/v2/go/pkg/beam/runners/direct"
 	"path"
 	"path/filepath"
 	"runtime"
 	"testing"
 
-	"github.com/apache/beam/sdks/go/pkg/beam/io/textio"
-	"github.com/apache/beam/sdks/go/pkg/beam/runners/direct"
-
-	"github.com/apache/beam/sdks/go/pkg/beam"
-	_ "github.com/apache/beam/sdks/go/pkg/beam/io/filesystem/local"
+	_ "github.com/apache/beam/sdks/v2/go/pkg/beam/io/filesystem/local"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -34,7 +33,7 @@ func TestRead(t *testing.T) {
 		p, root := beam.NewPipelineWithRoot()
 		co := Read(root, tc.input)
 		textio.Write(root, tc.output, co)
-		err := direct.Execute(context.Background(), p)
+		_, err := direct.Execute(context.Background(), p)
 		assert.Equal(tc.isErr, err != nil)
 	}
 }
@@ -61,14 +60,14 @@ func TestWrite(t *testing.T) {
 		p, root := beam.NewPipelineWithRoot()
 		co := textio.Read(root, tc.input)
 		Write(root, tc.output, co)
-		err := direct.Execute(context.Background(), p)
+		_, err := direct.Execute(context.Background(), p)
 		assert.Equal(tc.isErr, err != nil)
 
 		// write ungzip
 		p, root = beam.NewPipelineWithRoot()
 		co = Read(root, tc.output)
 		textio.Write(root, tc.routput, co)
-		err = direct.Execute(context.Background(), p)
+		_, err = direct.Execute(context.Background(), p)
 		assert.Equal(tc.isErr, err != nil)
 
 	}
